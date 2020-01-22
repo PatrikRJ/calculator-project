@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="display">0</div>
+        <div class="buttons">
+            <button class="numBtn">9</button>
+            <button class="numBtn">8</button>
+            <button class="numBtn">7</button>
+            <button class="numBtn">6</button>
+            <button class="numBtn">5</button>
+            <button class="numBtn">4</button>
+            <button class="numBtn">3</button>
+            <button class="numBtn">2</button>
+            <button class="numBtn">1</button>
+            <button class="numBtn">0</button>
+            <button class="opBtn">*</button>
+            <button class="opBtn">+</button>
+            <button class="opBtn">-</button>
+            <button class="opBtn">/</button>
+            <button class="equal">=</button>
+            <button class="clear">Clear</button>
+        </div>
+    </div>
+    <script>
+        let dispNum = "0";
+        let firstNum = 0;
+        let resultNum = 0;
+        let currOperator = ""
+
+        let add = (a, b) => a + b;
+        let substract = (a, b) => a - b;
+        let multiply = (a, b) => a * b;
+        let divide = (a, b) => a / b;
+        let operate = (operator, a, b) => {
+            switch (operator) {
+                case "+":
+                    return add(Number(firstNum), Number(dispNum));
+                    break;
+                case "-":
+                    return substract(Number(firstNum), Number(dispNum));
+                    break;
+                case "*":
+                    return multiply(Number(firstNum), Number(dispNum));
+                    break;
+                case "/":
+                    return divide(Number(firstNum), Number(dispNum));
+                    break;
+                default:
+                    console.log("WHAT?");
+                    return Number(dispNum);
+            }
+        };
+
+        function pushed() {
+            // console.log(this.textContent);
+            if(dispNum=="0")dispNum=this.textContent;
+            else dispNum += this.textContent;
+            //console.log(dispNum);
+            display.textContent = dispNum;
+        }
+
+        function opPressed() {
+            if(firstNum=="0")firstNum = dispNum;
+            currOperator = this.textContent;
+            dispNum = "";
+        }
+
+        function evaluate() {
+            resultNum = operate(currOperator, firstNum, display).toFixed(8);
+            dispNum = "";
+            if(resultNum==Infinity)display.textContent="Trying to be the smart one, eh?";
+            else display.textContent = "=" + resultNum;
+            firstNum = resultNum;
+        }
+
+        function clear() {
+            firstNum = "";
+            dispNum = "0";
+            resultNum = 0;
+            display.textContent = dispNum;
+        }
+
+        const display = document.querySelector("div.display");
+        const numButtons = document.querySelectorAll("button.numBtn");
+        numButtons.forEach(button => button.addEventListener("click", pushed));
+        const opButtons = document.querySelectorAll("button.opBtn");
+        opButtons.forEach(button => button.addEventListener("click", opPressed));
+        const eqButton = document.querySelector("button.equal");
+        eqButton.addEventListener("click", evaluate)
+        const clearButton = document.querySelector("button.clear");
+        clearButton.addEventListener("click", clear)
+    </script>
+</body>
+
+</html>
